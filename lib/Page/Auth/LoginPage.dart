@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/Page/Auth/Register.dart';
 import 'package:fooddelivery/SplashScreen.dart';
 import 'package:fooddelivery/Utills/Universalvariable.dart';
 
@@ -131,11 +132,7 @@ class _LoginPageState extends State<LoginPage> {
           InkWell(
             onTap: (){
               print("hiii");
-              Navigator.of(context).pushReplacement(
-                ThisIsFadeRoute(
-                  route: SplashScreen()
-                )
-              );
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
             },
             child: Text(
               "Don't Have any Account ?",
