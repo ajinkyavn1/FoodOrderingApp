@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fooddelivery/Page/Auth/Register.dart';
 import 'package:fooddelivery/SplashScreen.dart';
 import 'package:fooddelivery/Utills/Universalvariable.dart';
+import 'package:fooddelivery/blocs/LoginPageBloc.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController textUsernameController = TextEditingController();
   TextEditingController textPasswordControllar = TextEditingController();
+  LoginPageBloc loginBloc;
   final _fromKey = GlobalKey<FormState>();
 
   @override
@@ -98,6 +100,9 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: [
           TextFormField(
+            validator: (email){
+              return loginBloc.validateEmail(email);
+            },
             controller: textUsernameController,
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -112,6 +117,9 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: 15,),
           TextFormField(
+            validator: (pass){
+              return loginBloc.validatePassword(pass);
+            },
             controller: textPasswordControllar,
             decoration: InputDecoration(
               filled: true,
@@ -125,7 +133,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: 20,),
           ElevatedButton(
-              onPressed: (){},
+              onPressed: ()=>loginBloc.validateFromAndLogin(_fromKey, textUsernameController.text,textPasswordControllar.text)
+            .then((_) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterPage()))),
             child: Text("Login"),
           ),
           SizedBox(height: 19,),
