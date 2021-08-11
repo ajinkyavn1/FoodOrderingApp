@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>  with TickerProviderStateMi
         if (status == AnimationStatus.completed) {
           FutureBuilder(
             future: _authMethods.getCurruntUser(),
-            builder: (context,AsyncSnapshot<User> snapshot){
+            builder: (context,AsyncSnapshot<FirebaseUser> snapshot){
               if(snapshot.hasData)
                 {
                   Navigator.of(context).pushReplacement(
