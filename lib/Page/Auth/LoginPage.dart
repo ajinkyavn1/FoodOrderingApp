@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
           InkWell(
             onTap: (){
               print("hiii");
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterPage()));
             },
             child: Text(
               "Don't Have any Account ?",
