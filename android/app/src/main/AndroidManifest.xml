@@ -2,7 +2,7 @@
     package="com.foodorder.fooddelivery">
    <application
         android:label="fooddelivery"
-        android:icon="@drawable/logo.png">
+        android:icon="@drawable/logo">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
