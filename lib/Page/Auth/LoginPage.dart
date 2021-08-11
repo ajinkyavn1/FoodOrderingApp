@@ -1,18 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/Page/Auth/Register.dart';
-import 'package:fooddelivery/SplashScreen.dart';
-import 'package:fooddelivery/Utills/Universalvariable.dart';
 import 'package:fooddelivery/blocs/LoginPageBloc.dart';
+import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_)=>LoginPageBloc(),
+      child: LoginPageContent(),
+    );
+  }
+}
+
+class LoginPageContent extends StatefulWidget {
 
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginPageContent createState() => _LoginPageContent();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageContent extends State<LoginPageContent> {
   TextEditingController textUsernameController = TextEditingController();
   TextEditingController textPasswordControllar = TextEditingController();
   LoginPageBloc loginBloc;
@@ -20,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    loginBloc = Provider.of<LoginPageBloc>(context);
     return Scaffold(
 
       body: SingleChildScrollView(
@@ -138,6 +149,10 @@ class _LoginPageState extends State<LoginPage> {
             child: Text("Login"),
           ),
           SizedBox(height: 19,),
+          loginBloc.isLogedInPreesed
+              ? Center(
+              child: CircularProgressIndicator())
+              :Container(),
           InkWell(
             onTap: (){
               print("hiii");
