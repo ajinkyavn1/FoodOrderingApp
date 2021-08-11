@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/Page/HomePage.dart';
+import 'package:fooddelivery/Services/auth_Methods.dart';
 import 'dart:async';
 
 import 'Page/Auth/LoginPage.dart';
@@ -11,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>  with TickerProviderStateMixin{
   AnimationController scaleController;
+  AuthMethods _authMethods=AuthMethods();
   Animation<double> scaleAnimation;
   double _opacity = 0;
   bool _value = true;
@@ -24,10 +28,23 @@ class _SplashScreenState extends State<SplashScreen>  with TickerProviderStateMi
     )..addStatusListener(
           (status) {
         if (status == AnimationStatus.completed) {
-          Navigator.of(context).pushReplacement(
-            ThisIsFadeRoute(
-              route: LoginPage(),
-            ),
+          FutureBuilder(
+            future: _authMethods.getCurruntUser(),
+            builder: (context,AsyncSnapshot<User> snapshot){
+              if(snapshot.hasData)
+                {
+                  Navigator.of(context).pushReplacement(
+                      ThisIsFadeRoute(
+                        route: HomePage(),
+                      ));
+                  }
+                else{
+                Navigator.of(context).pushReplacement(
+                    ThisIsFadeRoute(
+                      route: LoginPage(),
+                    ));
+              }
+            },
           );
           Timer(
             Duration(milliseconds: 300),
