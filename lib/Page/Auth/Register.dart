@@ -1,20 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/Page/Auth/LoginPage.dart';
+import 'package:fooddelivery/Page/HomePage.dart';
 import 'package:fooddelivery/SplashScreen.dart';
+import 'package:fooddelivery/blocs/RegisterPageBloc.dart';
+import 'package:provider/provider.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends StatelessWidget {
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create:(_)=> RegisterPageBloc(),
+      child: RegisterPageContent(),
+    );
+  }
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class RegisterPageContent extends StatefulWidget {
+  @override
+  _RegisterPageContentState createState() => _RegisterPageContentState();
+}
+
+class _RegisterPageContentState extends State<RegisterPageContent> {
   TextEditingController textUsernameController = TextEditingController();
   TextEditingController textPasswordControllar = TextEditingController();
+  TextEditingController textMobaileControllar = TextEditingController();
   final _fromKey = GlobalKey<FormState>();
+  RegisterPageBloc registerPageBloc;
 
   @override
   Widget build(BuildContext context) {
+    registerPageBloc=Provider.of<RegisterPageBloc>(context);
     return Scaffold(
 
       body: SingleChildScrollView(
@@ -101,17 +117,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(15)
                 ),
                 filled: true,
-                fillColor: Color(0xFFe7edeb),
-                prefixIcon: Icon(CupertinoIcons.person_alt_circle),
+
+                prefixIcon: Icon(CupertinoIcons.mail_solid),
                 labelText: "Email"
             ),
             keyboardType: TextInputType.emailAddress,
           ),
           SizedBox(height: 15,),
           TextFormField(
-            controller: textPasswordControllar,
+            controller: textMobaileControllar,
             decoration: InputDecoration(
                 filled: true,
+                counterText: "",
                 fillColor: Color(0xFFe7edeb),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15)
@@ -119,6 +136,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 prefixIcon: Icon(CupertinoIcons.phone),
                 labelText: "Mobile"
             ),
+            keyboardType: TextInputType.number,
+            maxLength: 10,
+            maxLengthEnforced: true,
           ),
           SizedBox(height: 15,),
           TextFormField(
@@ -137,7 +157,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 20,),
           ElevatedButton(
-            onPressed: (){},
+            onPressed: ()=>registerPageBloc.validateFormAndRegister(_fromKey,textUsernameController.text,textPasswordControllar.text,textMobaileControllar.text)
+              .then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()))),
             child: Text("Register"),
           ),
           SizedBox(height: 19,),
@@ -155,7 +176,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   decoration: TextDecoration.underline
               ),
             ),
-          )
+          ),
+          registerPageBloc.isRegisterPressed
+              ? Center(
+              child: CircularProgressIndicator())
+              : Container(),
         ],
       ),
     );
