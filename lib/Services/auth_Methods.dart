@@ -20,7 +20,7 @@ class AuthMethods{
   }
   //signin user
 Future<FirebaseUser> SignIn(String email, String password )async{
-    final FirebaseUser user=(await _auth.signInWithEmailAndPassword(email: email, password: password)) as FirebaseUser;
+      final FirebaseUser user = (await _auth.signInWithEmailAndPassword(email: email, password: password)).user;
       assert(user!=null);
       assert(await user.getIdToken()!=null);
     FirebaseUser curruntuser=await _auth.currentUser();
@@ -29,7 +29,7 @@ Future<FirebaseUser> SignIn(String email, String password )async{
       return user;
 }
 Future<FirebaseUser> SignUp(String email,String password,String mobile)async{
-    final FirebaseUser user=await _auth.createUserWithEmailAndPassword(email: email, password: password) as FirebaseUser;
+    final FirebaseUser user=(await _auth.createUserWithEmailAndPassword(email: email, password: password)).user;
     assert(user!=null);
     assert(await user.getIdToken()!=null);
     await addDataDb(user,email,password,mobile);
