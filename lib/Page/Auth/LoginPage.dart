@@ -121,7 +121,7 @@ class _LoginPageContent extends State<LoginPageContent> {
               ),
               filled: true,
               fillColor: Color(0xFFe7edeb),
-              prefixIcon: Icon(CupertinoIcons.person_alt_circle),
+              prefixIcon: Icon(CupertinoIcons.mail_solid),
               labelText: "Email"
             ),
             keyboardType: TextInputType.emailAddress,
@@ -132,6 +132,8 @@ class _LoginPageContent extends State<LoginPageContent> {
               return loginBloc.validatePassword(pass);
             },
             controller: textPasswordControllar,
+            obscureText: true,
+            obscuringCharacter: '*',
             decoration: InputDecoration(
               filled: true,
                 fillColor: Color(0xFFe7edeb),
@@ -145,7 +147,7 @@ class _LoginPageContent extends State<LoginPageContent> {
           SizedBox(height: 20,),
           ElevatedButton(
               onPressed: ()=>loginBloc.validateFromAndLogin(_fromKey, textUsernameController.text,textPasswordControllar.text)
-            .then((_) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterPage()))),
+            .then((_) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterPageContent()))),
             child: Text("Login"),
           ),
           SizedBox(height: 19,),
