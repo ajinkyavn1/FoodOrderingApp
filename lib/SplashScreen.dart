@@ -14,11 +14,10 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>  with TickerProviderStateMixin{
   AnimationController scaleController;
-  AuthMethods _authMethods=AuthMethods();
   Animation<double> scaleAnimation;
   double _opacity = 0;
   bool _value = true;
-
+  AuthMethods _authMethods=AuthMethods();
   @override
   void initState() {
     super.initState();
@@ -28,26 +27,23 @@ class _SplashScreenState extends State<SplashScreen>  with TickerProviderStateMi
     )..addStatusListener(
           (status) {
         if (status == AnimationStatus.completed) {
-          FutureBuilder(
-            future: _authMethods.getCurruntUser(),
-            builder: (context,AsyncSnapshot<FirebaseUser> snapshot){
-              if(snapshot.hasData)
-                {
-                  Navigator.of(context).pushReplacement(
-                      ThisIsFadeRoute(
-                        route: HomePage(),
-                      ));
-                  }
-                else{
-                Navigator.of(context).pushReplacement(
-                    ThisIsFadeRoute(
-                      route: LoginPage(),
-                    ));
-              }
-            },
-          );
+
+          Navigator.of(context).pushReplacement(
+              ThisIsFadeRoute(
+                route: FutureBuilder(
+                  future: _authMethods.getCurruntUser(),
+                  builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+                    if (snapshot.hasData) {
+                     return HomePage();
+                    }
+                    else {
+                      return LoginPage();
+                    }
+                  },
+                ),
+              ));
           Timer(
-            Duration(milliseconds: 300),
+            Duration(milliseconds: 200),
                 () {
               scaleController.reset();
             },
