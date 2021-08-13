@@ -1,7 +1,7 @@
 class Categorites{
-  String name;
   String imge;
-  String key;
+  String name;
+  String keys;
 
-  Categorites(this.name, this.imge, this.key);
+  Categorites(this.imge,this.name, this.keys);
 }
