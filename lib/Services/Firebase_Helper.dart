@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fooddelivery/Model/Categorys.dart';
 import 'package:fooddelivery/Model/FoodModel.dart';
 import 'package:fooddelivery/Model/Request.dart';
 import 'package:fooddelivery/Services/auth_Methods.dart';
@@ -8,7 +9,7 @@ class Firebasehelper{
   static final DatabaseReference _OrderdatabaseReference=_database.reference().child("Orders");
   static final DatabaseReference _CatageroiesdatabaseReference=_database.reference().child("Category");
   static final DatabaseReference _FooddatabaseReference=_database.reference().child("Foods");
-  Future<List<FoodModel>> fetchallorder()async{
+  Future<List<FoodModel>> fetchallfood()async{
     List<FoodModel>FoodList=<FoodModel>[];
    DatabaseReference fooddatabaseReference=_database.reference().child("Foods");
    await fooddatabaseReference.once().then((DataSnapshot snap){
@@ -56,7 +57,24 @@ class Firebasehelper{
     await _OrderdatabaseReference.child(request.uid).push().set(request.toMap(request));
     return true;
   }
-  Future<List<Categorites>> fetchOrders(FirebaseUser curruntuser){
+  Future<Categorites> getCategories()async{
+    List<Categorites> CategoryList=[];
+    await _CatageroiesdatabaseReference.once().then((DataSnapshot snapshot){
+      var keys=snapshot.value.keys;
+      var data=snapshot.value;
+      for(var da in keys){
+        Categorites cateList=new Categorites(
+          data[da]['image'],
+          data[da]['name'],
+          da.toString()
+          );
+        CategoryList.add(cateList);
+      }
+    });
+    return CategoryList;
+  }
+
+  Future<List<Request>> fetchOrders(FirebaseUser curruntuser){
     List<Request> requestList=[];
     DatabaseReference fooddatabaseReferenc=_OrderdatabaseReference.child(curruntuser);
     await fooddatabaseReferenc.once().then((DataSnapshot snap){
