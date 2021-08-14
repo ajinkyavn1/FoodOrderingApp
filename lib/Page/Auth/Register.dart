@@ -29,6 +29,14 @@ class _RegisterPageContentState extends State<RegisterPageContent> {
   RegisterPageBloc registerPageBloc;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    textMobaileControllar.dispose();
+    textPasswordControllar.dispose();
+    textUsernameController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     registerPageBloc=Provider.of<RegisterPageBloc>(context);
     return Scaffold(
@@ -164,7 +172,6 @@ class _RegisterPageContentState extends State<RegisterPageContent> {
           SizedBox(height: 19,),
           InkWell(
             onTap: (){
-              print("hiii");
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
             },
             child: Text(
