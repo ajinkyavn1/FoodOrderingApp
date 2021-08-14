@@ -29,6 +29,14 @@ class _LoginPageContent extends State<LoginPageContent> {
   final _fromKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    textUsernameController.dispose();
+    textPasswordControllar.dispose();
+    loginBloc.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     loginBloc = Provider.of<LoginPageBloc>(context);
     return Scaffold(
@@ -147,7 +155,7 @@ class _LoginPageContent extends State<LoginPageContent> {
           SizedBox(height: 20,),
           ElevatedButton(
               onPressed: ()=>loginBloc.validateFromAndLogin(_fromKey, textUsernameController.text,textPasswordControllar.text)
-            .then((_) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterPageContent()))),
+            .then((_) =>GoHome()),
             child: Text("Login"),
           ),
           SizedBox(height: 19,),
@@ -173,5 +181,9 @@ class _LoginPageContent extends State<LoginPageContent> {
         ],
       ),
     );
+  }
+
+  GoHome() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterPageContent()));
   }
 }
