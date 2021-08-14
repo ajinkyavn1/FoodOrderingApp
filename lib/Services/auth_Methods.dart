@@ -9,7 +9,7 @@ import 'package:fooddelivery/Model/UserData.dart';
 
 class AuthMethods{
   //code is Used to initialized Database
-  final FirebaseAuth _auth=FirebaseAuth.instance;
+  final FirebaseAuth    _auth=FirebaseAuth.instance;
   static final FirebaseDatabase _database=FirebaseDatabase.instance;
   static final DatabaseReference _userRefrence=_database.reference().child("Users");
   //code use for get currunt user
@@ -29,16 +29,20 @@ Future<FirebaseUser> SignIn(String email, String password )async{
       return user;
 }
 Future<FirebaseUser> SignUp(String email,String password,String mobile)async{
-    final FirebaseUser user=(await _auth.createUserWithEmailAndPassword(email: email, password: password)).user;
+    final AuthResult user=await _auth.createUserWithEmailAndPassword(email: email, password: password);
     assert(user!=null);
-    assert(await user.getIdToken()!=null);
-    await addDataDb(user,email,password,mobile);
-    return user;
-    
-    return user;
+    print("called before token");
+    assert(await user.user.getIdToken()!=null);
+    print("called  after token");
+    await addDataDb(user.user,email,password,mobile);
+    print("called after Db saved token");
+    return user.user;
 }
-Future<Void> addDataDb(FirebaseUser user,String email,String password,String mobile){
+Future<Void> addDataDb(FirebaseUser user,String email,String password,String mobile)async{
+    print("called in addd DB");
     Users users=Users(user.uid,user.email, mobile,password);
-    _userRefrence.child(user.uid).set(users.toMap(users));
+
+   _userRefrence.child(user.uid).set(users.toMap(users));
+    print (users.toMap(users));
 }
 }
