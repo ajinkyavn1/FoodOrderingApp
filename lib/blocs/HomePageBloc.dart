@@ -33,26 +33,27 @@ class HomePageBloc with ChangeNotifier{
   }
   getCategoryFood(){
     CategoritesList.clear();
-    mfirebasehelper.getCategories().then((List<FoodModel> cList) {
-      CategoritesList=cList;
+    mfirebasehelper.getCategories().then((List<Categorites> Flist){
+      CategoritesList=Flist;
       notifyListeners();
     });
   }
-  getRecomendedFoodList(){
-
-    mfirebasehelper.fetchallfood().then((List<FoodModel> FList){
-        FList.forEach((FoodModel food) {
+  getRecomendedFoodList() async{
+    mfirebasehelper.fetchallfood().then((List<FoodModel> FList) {
+      FList.forEach((FoodModel food) {
         // we are fetching 3 types of foods who's menu id is 05 03 and 07.
-        if(food.menuId=="05"){
+        print("data=:::${food.name}");
+        if (food.menuId == "05") {
           popularFood.add(food);
         }
-        else if(food.menuId=="03"){
+        else if (food.menuId == "03") {
           foodlist.add(food);
         }
-        else if(food.menuId=="07"){
+        else if (food.menuId == "07") {
           bannerFood.add(food);
         }
         notifyListeners();
+      });
     });
   }
 }
