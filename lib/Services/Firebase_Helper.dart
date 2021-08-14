@@ -57,16 +57,16 @@ class Firebasehelper{
     await _OrderdatabaseReference.child(request.uid).push().set(request.toMap(request));
     return true;
   }
-  Future<Categorites> getCategories()async{
+  Future<List<Categorites>> getCategories()async{
     List<Categorites> CategoryList=[];
     await _CatageroiesdatabaseReference.once().then((DataSnapshot snapshot){
       var keys=snapshot.value.keys;
       var data=snapshot.value;
       for(var da in keys){
         Categorites cateList=new Categorites(
-          data[da]['image'],
-          data[da]['name'],
-          da.toString()
+            image:data[da]['image'],
+            name:data[da]['name'],
+           keys:da.toString()
           );
         CategoryList.add(cateList);
       }
@@ -74,9 +74,9 @@ class Firebasehelper{
     return CategoryList;
   }
 
-  Future<List<Request>> fetchOrders(FirebaseUser curruntuser){
+  Future<List<Request>> fetchOrders(FirebaseUser curruser)async{
     List<Request> requestList=[];
-    DatabaseReference fooddatabaseReferenc=_OrderdatabaseReference.child(curruntuser);
+    DatabaseReference fooddatabaseReferenc=_OrderdatabaseReference.child(curruser.uid);
     await fooddatabaseReferenc.once().then((DataSnapshot snap){
       var key=snap.value.keys;
       var data=snap.value;
@@ -96,7 +96,7 @@ class Firebasehelper{
     });
     return requestList;
   }
-  Future<void> addOrder(String totalPrice,List<FoodModel orderedFoodList,String Name,String Address)async{
+  Future<void> addOrder(String totalPrice,List<FoodModel> orderedFoodList,String Name,String Address)async{
     FirebaseUser user=await AuthMethods().getCurruntUser();
     String uidtext=user.uid;
     String statustext="0";
