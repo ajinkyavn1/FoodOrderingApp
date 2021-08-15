@@ -16,6 +16,8 @@ class Firebasehelper{
      var keys=snap.value.key;
      var data=snap.value;
      FoodList.clear();
+
+     print(snap);
      for(var indivisualData in keys){
        FoodModel foodModel=new FoodModel(
            data[indivisualData]['description'],
