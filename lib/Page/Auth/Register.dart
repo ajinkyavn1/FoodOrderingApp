@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/Page/Auth/LoginPage.dart';
 import 'package:fooddelivery/Page/HomePage.dart';
-import 'package:fooddelivery/SplashScreen.dart';
 import 'package:fooddelivery/blocs/RegisterPageBloc.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -17,6 +20,10 @@ class RegisterPage extends StatelessWidget {
 }
 
 class RegisterPageContent extends StatefulWidget {
+
+  final FirebaseApp app;
+
+  RegisterPageContent({this.app});
   @override
   _RegisterPageContentState createState() => _RegisterPageContentState();
 }
@@ -40,10 +47,8 @@ class _RegisterPageContentState extends State<RegisterPageContent> {
   Widget build(BuildContext context) {
     registerPageBloc=Provider.of<RegisterPageBloc>(context);
     return Scaffold(
-
       body: SingleChildScrollView(
-        // reverse: true,
-
+         reverse: true,
         child: Container(
           constraints: BoxConstraints(
               maxWidth: MediaQuery
@@ -90,7 +95,7 @@ class _RegisterPageContentState extends State<RegisterPageContent> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -169,7 +174,7 @@ class _RegisterPageContentState extends State<RegisterPageContent> {
               .then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()))),
             child: Text("Register"),
           ),
-          SizedBox(height: 19,),
+          SizedBox(height: 10,),
           InkWell(
             onTap: (){
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
