@@ -31,10 +31,11 @@ class _LoginPageContent extends State<LoginPageContent> {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
+
     textUsernameController.dispose();
     textPasswordControllar.dispose();
     loginBloc.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -165,7 +166,6 @@ class _LoginPageContent extends State<LoginPageContent> {
               :Container(),
           InkWell(
             onTap: (){
-              print("hiii");
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterPage()));
             },
             child: Text(
