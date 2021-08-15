@@ -4,14 +4,16 @@ import 'dart:async';
 import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fooddelivery/Model/UserData.dart';
 
 class AuthMethods{
   //code is Used to initialized Database
   final FirebaseAuth    _auth=FirebaseAuth.instance;
-  static final FirebaseDatabase _database=FirebaseDatabase.instance;
-  static final DatabaseReference _userRefrence=_database.reference().child("Users");
+  final app=FirebaseApp.instance;
+  static final FirebaseDatabase database=FirebaseDatabase.instance;
+   final _userRefrence=database.reference().child("Users");
   //code use for get currunt user
   Future<FirebaseUser> getCurruntUser()async{
     FirebaseUser user;
@@ -45,4 +47,5 @@ Future<Void> addDataDb(FirebaseUser user,String email,String password,String mob
    _userRefrence.child(user.uid).set(users.toMap(users));
     print (users.toMap(users));
 }
+
 }
